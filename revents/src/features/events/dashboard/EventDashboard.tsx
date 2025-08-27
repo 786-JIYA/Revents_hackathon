@@ -3,16 +3,35 @@ import { events } from "../../../lib/data/sampleData";
 import EventForms from "../form/EventForms";
 import EventCard from "./EventCard";
 import { AnimatePresence ,motion } from "motion/react";
+import type { AppEvent } from "../../../lib/types";
 
 type Props = {
   formOpen : boolean;
   setFormOpen : (isOpen:boolean) => void;
- 
+  selectEvent : (event:AppEvent) => void;
+  formToggle : (event: AppEvent| null) => void;
+  selectedEvent : AppEvent | null;
+  
+
 }
 
-export default function EventDashboard({formOpen,setFormOpen}:Props) {
+export default function EventDashboard({formOpen,setFormOpen ,formToggle,selectedEvent}:Props) {
 
   const [appEvents , setAppEvents]=useState<AppEvent[]>([]);
+ 
+
+  const handleCreateEvent = (event:AppEvent) => {
+    setAppEvents((prevState)=>[...prevState,event]);}
+
+  const handleUpdateEvent = (updatedEvent:AppEvent) => {
+    setAppEvents((prevState)=> {
+      return prevState.map(e => e.id === updatedEvent.id ? updatedEvent : e);
+  });  
+}
+
+  const handleDeleteEvent = (eventId:string) => {
+    setAppEvents((prevState) => prevState.filter(e => e.id !== eventId));
+  }
 
   useEffect(() => {
     setAppEvents(events);
@@ -34,7 +53,10 @@ export default function EventDashboard({formOpen,setFormOpen}:Props) {
         transition={{duration:0.5 , type:'easeInOut'}}
         >
        {appEvents.map((event) => (
-        <EventCard key={event.id} event={event} />
+        <EventCard key={event.id} event={event}
+       formToggle={formToggle}
+       deleteEvent={handleDeleteEvent}
+         />
       ))}
       </motion.div>
       </AnimatePresence>
@@ -48,7 +70,13 @@ export default function EventDashboard({formOpen,setFormOpen}:Props) {
         animate={{opacity:1,x:0}}
         exit={{opacity:0,x:200}}
         transition={{duration:0.3 , type:'easeInOut'}}>
-          <EventForms setFormOpen={setFormOpen}/>
+          <EventForms
+          key={selectedEvent ? selectedEvent.id : 'new'}
+          setFormOpen={setFormOpen} 
+          createEvent = {handleCreateEvent}
+          selectedEvent={selectedEvent}
+          updateEvent={handleUpdateEvent}
+         />
         </motion.div>
           
        )}

@@ -5,14 +5,16 @@ import EventAttendees from "./EventAttendees"
 
 type Props = {
   event : AppEvent;
+  formToggle : (event:AppEvent) => void;
+  deleteEvent : (eventId:string) => void;
 }
 
-function EventCard({event}:Props) {
+function EventCard({event,formToggle,deleteEvent}:Props) {
 
     const host = event.attendees.find(x => x.id === event.hostUid);
 
     return (
-      <div className="card card-dash bg-base-100 w-full text-white ">
+      <div className="card card-dash bg-base-100 w-full text-white mt-5 ">
     <div className="card-body">
        <div className="flex gap-3 items-center">
          <figure className="card-figure w-14 rounded-lg">
@@ -34,7 +36,8 @@ function EventCard({event}:Props) {
       <div className="flex flex-1">
         {event.description}
       </div>
-      <button className="btn btn-primary">View</button>
+            <button onClick={()=>deleteEvent(event.id)} className="btn btn-error ">Delete</button>
+      <button onClick={()=>formToggle(event)} className="btn btn-primary">View</button>
     </div>
   </div>
 </div>

@@ -1,10 +1,11 @@
 import { div } from "motion/react-client"
+import type { AppEvent } from "../../../lib/types";
 
 type Props = {
-   setFormOpen : (isOpen:boolean) => void;
+  formToggle : (event: AppEvent| null) => void;
 }
 
-function Navbar({setFormOpen}:Props) {
+function Navbar({formToggle}:Props) {
     return (
 
         <header className="p-3 w-full fixed top-0 z-50 bg-gradient-to-r from-primary to-black">
@@ -16,7 +17,7 @@ function Navbar({setFormOpen}:Props) {
                 <nav className="flex gap-3 my-2 uppercase text-lg text-white">
                     <a>Events</a>
                     <a onClick={()=>
-                        setFormOpen(true)
+                        formToggle(null)
                     }>Create</a>
                 </nav>
                 <div className="flex align-middle ml-auto gap-3">
