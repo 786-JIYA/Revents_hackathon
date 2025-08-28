@@ -1,14 +1,11 @@
 import { useState,useEffect } from "react";
 import { events } from "../../../lib/data/sampleData";
-import EventForms from "../form/EventForms";
 import EventCard from "./EventCard";
-import { AnimatePresence ,motion } from "motion/react";
 import type { AppEvent } from "../../../lib/types";
 
 type Props = {
   formOpen : boolean;
   setFormOpen : (isOpen:boolean) => void;
-  selectEvent : (event:AppEvent) => void;
   formToggle : (event: AppEvent| null) => void;
   selectedEvent : AppEvent | null;
   
@@ -45,42 +42,17 @@ export default function EventDashboard({formOpen,setFormOpen ,formToggle,selecte
   return (
     <div className="flex flex-row w-full  gap-6">
       <div className="w-3/5 flex flex-col gap-4 ml-20 mt-25">
-      <AnimatePresence>
-        <motion.div
-        initial={{opacity:0,x:-200}}
-        animate={{opacity:1,x:0}}
-        exit={{opacity:0,x:-200}}
-        transition={{duration:0.5 , type:'easeInOut'}}
-        >
+     
        {appEvents.map((event) => (
         <EventCard key={event.id} event={event}
        formToggle={formToggle}
        deleteEvent={handleDeleteEvent}
          />
       ))}
-      </motion.div>
-      </AnimatePresence>
      
       </div>
       <div className="w-2/5">
-     <AnimatePresence>
-       {formOpen && (
-        <motion.div
-        initial={{opacity:0,x:200}}
-        animate={{opacity:1,x:0}}
-        exit={{opacity:0,x:200}}
-        transition={{duration:0.3 , type:'easeInOut'}}>
-          <EventForms
-          key={selectedEvent ? selectedEvent.id : 'new'}
-          setFormOpen={setFormOpen} 
-          createEvent = {handleCreateEvent}
-          selectedEvent={selectedEvent}
-          updateEvent={handleUpdateEvent}
-         />
-        </motion.div>
           
-       )}
-    </AnimatePresence>      
       </div>
     </div>
   )
