@@ -1,7 +1,7 @@
-import App from "../../../app/layouts/App"
-import { events } from "../../../lib/data/sampleData";
+
 import type { AppEvent } from "../../../lib/types"
 import EventAttendees from "./EventAttendees"
+import { Link } from "react-router";
 
 type Props = {
   event : AppEvent;
@@ -36,8 +36,10 @@ function EventCard({event,formToggle,deleteEvent}:Props) {
       <div className="flex flex-1">
         {event.description}
       </div>
-            <button onClick={()=>deleteEvent(event.id)} className="btn btn-error ">Delete</button>
-      <button onClick={()=>formToggle(event)} className="btn btn-primary">View</button>
+      <div>
+           
+      <Link to={`/events/${event.id}`} className="btn btn-primary">View</Link>
+      </div>
     </div>
   </div>
 </div>

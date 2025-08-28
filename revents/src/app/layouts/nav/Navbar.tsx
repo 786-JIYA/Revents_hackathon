@@ -2,12 +2,15 @@ import { div } from "motion/react-client"
 import type { AppEvent } from "../../../lib/types";
 
 import { NavLink } from "react-router";
+import UserMenu from "./UserMenu";
 
 type Props = {
   formToggle : (event: AppEvent| null) => void;
 }
 
 function Navbar({formToggle}:Props) {
+    const loggedIn=true;
+
     return (
 
         <header className="p-3 w-full fixed top-0 z-50 bg-gradient-to-r from-primary to-black">
@@ -18,14 +21,20 @@ function Navbar({formToggle}:Props) {
                     re-events</NavLink>
                 </div>
                 <nav className="flex gap-3 my-2 uppercase text-lg text-white">
-                    <NavLink to='/events' >Events</NavLink>
+                    <NavLink to='/events' end>Events</NavLink>
                     <NavLink to='/createEvent' onClick={()=>
                         formToggle(null)
                     }>Create</NavLink>
                 </nav>
                 <div className="flex align-middle ml-auto gap-3">
-                    <button className="btn bg-white text-black">Login</button>
+                    {loggedIn ?(
+                        <UserMenu/>
+                    ):(<>
+                         <button className="btn bg-white text-black">Login</button>
                     <button className="btn  bg-white text-black">Register</button>
+                    </>
+                    ) }
+                   
                 </div>
             </div>
         </header>

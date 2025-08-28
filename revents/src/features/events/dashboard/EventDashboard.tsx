@@ -52,6 +52,7 @@ export default function EventDashboard({formOpen,setFormOpen ,formToggle,selecte
      
       </div>
       <div className="w-2/5">
+      
           
       </div>
     </div>
