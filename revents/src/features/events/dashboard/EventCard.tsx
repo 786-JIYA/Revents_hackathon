@@ -3,15 +3,17 @@ import type { AppEvent } from "../../../lib/types"
 import EventAttendees from "./EventAttendees"
 import { Link } from "react-router";
 
+
 type Props = {
   event : AppEvent;
-  formToggle : (event:AppEvent) => void;
-  deleteEvent : (eventId:string) => void;
+  
 }
 
-function EventCard({event,formToggle,deleteEvent}:Props) {
+function EventCard({event}:Props) {
 
     const host = event.attendees.find(x => x.id === event.hostUid);
+
+
 
     return (
       <div className="card card-dash bg-base-100 w-full text-white mt-5 ">
@@ -38,11 +40,15 @@ function EventCard({event,formToggle,deleteEvent}:Props) {
       </div>
       <div>
            
-      <Link to={`/events/${event.id}`} className="btn btn-primary">View</Link>
+      <Link to={`/events/${event.id}`} className="btn btn-primary">View</Link> 
+      {/* <div className="flex gap-3">
+        <button className="btn btn-primary btn-sm" onClick={()=>formToggle(event)}>Edit</button>
+        <button className="btn btn-secondary btn-sm" onClick={()=>dispatch(deleteEvent(event.id))}>Delete</button> */}
+      </div>
       </div>
     </div>
   </div>
-</div>
+
     )
 }
 export default EventCard

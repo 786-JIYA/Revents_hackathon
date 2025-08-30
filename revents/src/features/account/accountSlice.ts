@@ -1,0 +1,45 @@
+import  { createSlice} from "@reduxjs/toolkit";
+import type {  PayloadAction } from "@reduxjs/toolkit";
+import type { AppUser } from "../../lib/types"
+import type { User } from "firebase/auth";
+
+type State = {
+    user: AppUser | null;
+}
+
+const initialState: State = {
+    user: null
+}
+
+export const accountSlice = createSlice({
+    name: 'account',
+    initialState,
+    reducers: {
+        signIn: {
+            reducer: (state, action: PayloadAction<AppUser>) => {
+                state.user = action.payload;
+            },
+            prepare: (user: User) => {
+                return {
+                    payload: {
+                        uid: user.uid,
+                        email: user.email,
+                        displayName: user.displayName,
+                        photoURL: user.photoURL,
+                        providerId: user.providerData[0].providerId
+                    } as AppUser
+                }
+            }
+        } ,
+        signOut: (state) => {
+            state.user = null;
+        },
+        setImage: (state, action: PayloadAction<string>) => {
+            if (state.user) {
+                state.user.photoURL = action.payload;
+            }
+        }
+    }
+});
+
+export const { signIn, signOut, setImage } = accountSlice.actions;
